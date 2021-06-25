@@ -47,6 +47,15 @@ const Loading = styled.div`
   margin-top: 10px;
 `;
 
+const Movies = styled.div`
+  display: grid;
+  grid-template-columns: repeat(4, 2fr);
+  grid-gap: 25px;
+  position: relative;
+  width: 60%;
+  top: -50px;
+`;
+
 const Home = () => {
   //데이터를 쿼리로 보낸다.
   const { loading, error, data } = useQuery(GET_MOVIES);
@@ -58,9 +67,11 @@ const Home = () => {
         <Subtitle>I Love GraphQL</Subtitle>
       </Header>
       {loading && <Loading>Loading...</Loading>}
-      {!loading &&
-        data.movies &&
-        data.movies.map((m) => <Movie key={m.id} id={m.id} {...m} />)}
+      <Movies>
+        {data?.movies.map((m) => (
+          <Movie key={m.id} id={m.id} bg={m.medium_cover_image} />
+        ))}
+      </Movies>
     </Container>
   );
 };
