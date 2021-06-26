@@ -8,11 +8,13 @@ const GET_MOVIE = gql`
   query getMovie($id: Int!) {
     # Query를 위한 코드
     movie(id: $id) {
+      id
       title
       language
       rating
       medium_cover_image
       description_intro
+      isLiked @client
     }
     suggestions(id: $id) {
       id
@@ -96,14 +98,17 @@ const Detail = () => {
   const { loading, data } = useQuery(GET_MOVIE, {
     variables: { id: parseInt(id) },
   });
-
   console.log(data);
 
   //화면 설정
   return (
     <Container>
       <TextColumn>
-        <Title>{loading ? "Loading..." : data.movie.title}</Title>
+        <Title>
+          {loading
+            ? "Loading..."
+            : `${data.movie.title} ${data.movie.isLiked ? "😀" : "❤️"}`}
+        </Title>
         <Subtitle>
           {data?.movie?.language}·{data?.movie?.rating}
         </Subtitle>

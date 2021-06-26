@@ -8,6 +8,7 @@ const GET_MOVIES = gql`
     movies {
       id
       medium_cover_image
+      isLiked @client
     }
   }
 `;
@@ -59,17 +60,21 @@ const Movies = styled.div`
 const Home = () => {
   //데이터를 쿼리로 보낸다.
   const { loading, error, data } = useQuery(GET_MOVIES);
-
   return (
     <Container>
       <Header>
-        <Title>Apollo 2020</Title>
+        <Title>Apollo 2021</Title>
         <Subtitle>I Love GraphQL</Subtitle>
       </Header>
       {loading && <Loading>Loading...</Loading>}
       <Movies>
         {data?.movies.map((m) => (
-          <Movie key={m.id} id={m.id} bg={m.medium_cover_image} />
+          <Movie
+            key={m.id}
+            id={m.id}
+            bg={m.medium_cover_image}
+            isLiked={m.isLiked}
+          />
         ))}
       </Movies>
     </Container>
